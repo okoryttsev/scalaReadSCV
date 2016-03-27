@@ -43,9 +43,19 @@ object WorkFile {
 
   }
 
-  def countForLastColumnTable(temp:Map[String, ListBuffer[String]]): Unit ={
+  def countForLastColumnTable(temp: Map[String, ListBuffer[String]]): Unit = {
+    var destList:ListBuffer[String]=temp("DEST")
+    val dast:List[String]=destList.toList
+
+    println(countRepeatedValues(dast))
+  }
 
 
+
+  def countRepeatedValues(letters: List[String]): Map[String, Int] = {
+    var map = Map[String, Int]()
+    for(letter <- letters) map += Pair(letter, map.getOrElse(letter, 0) + 1)
+    map
   }
 
 }

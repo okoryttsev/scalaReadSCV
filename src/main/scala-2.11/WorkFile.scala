@@ -43,11 +43,10 @@ object WorkFile {
 
   }
 
-  def countForLastColumnTable(temp: Map[String, ListBuffer[String]]): Unit = {
+  def countForLastColumnTable(temp: Map[String, ListBuffer[String]]):  Map[String, Int] = {
     var destList:ListBuffer[String]=temp("DEST")
     val dast:List[String]=destList.toList
-
-    println(countRepeatedValues(dast))
+    countRepeatedValues(dast)
   }
 
 
@@ -58,5 +57,19 @@ object WorkFile {
     map
   }
 
+
+
+  def writeResultIntoFile(temp:Map[String,Int],fileName:String){
+    val out =new FileWriter("./src/main/resources/resultFiles/"+fileName+".csv")
+
+
+    val stringAry: Array[String]  = ( temp.map (_.toString)).toArray
+    for(st<-stringAry){
+      out.write(st+"\n")
+    }
+
+    out.close()
+
+  }
 }
 

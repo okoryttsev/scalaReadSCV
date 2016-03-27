@@ -85,9 +85,12 @@ object WorkFile {
 
     val stringAry: Array[String] = (temp.map(_.toString)).toArray
     for (st <- stringAry) {
-      out.write(st + "\n")
-    }
 
+
+      out.write((st.replace("(","")).replace(")","") + "\n")
+    }
+    println("*** write into file, done "+
+    "file path:"+"./src/main/resources/resultFiles/" + fileName + ".csv")
     out.close()
 
   }

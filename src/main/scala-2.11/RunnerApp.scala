@@ -8,6 +8,10 @@ object RunnerApp {
     val result=WorkFile.countForLastColumnTable(resultMap)
     println("\nStep3 put values into file")
     WorkFile.writeResultIntoFile(result,"countLastColumns")
+    println("\nStep4 get results of diffs between columns ")
+    val result2=WorkFile.countDiffBetweenColuns(resultMap)
+    println("\nStep5 write results into file")
+    WorkFile.writeResultIntoFile(result2,"countTheDifference")
 
   }
 }

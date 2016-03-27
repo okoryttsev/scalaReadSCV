@@ -9,7 +9,7 @@ object WorkFile {
   def readFileFormatGz(fileName: String): Map[String, ListBuffer[String]] = {
     val in: InputStream = new GZIPInputStream(new FileInputStream(fileName))
     val reader = scala.io.Source.fromInputStream(in).getLines()
-    // val mapData: Map[String,List[String]]=null
+
     val header = reader.next.split(",").map(_.trim)
 
     var y0 = new ListBuffer[String]()
@@ -33,7 +33,7 @@ object WorkFile {
       y5 += (column(5))
       y6 += (column(6))
       y7 += (column(7))
-      //ms ++= kvs	Adds all mappings in kvs to ms as a side effect and returns ms itself.
+
     }
 
     //"YEAR","QUARTER","MONTH","DAY_OF_MONTH","DAY_OF_WEEK","FL_DATE","ORIGIN","DEST"
@@ -43,29 +43,49 @@ object WorkFile {
 
   }
 
-  def countForLastColumnTable(temp: Map[String, ListBuffer[String]]):  Map[String, Int] = {
-    var destList:ListBuffer[String]=temp("DEST")
-    val dast:List[String]=destList.toList
+  def countForLastColumnTable(temp: Map[String, ListBuffer[String]]): Map[String, Int] = {
+    var destList: ListBuffer[String] = temp("DEST")
+    val dast: List[String] = destList.toList
     countRepeatedValues(dast)
   }
 
+  def countDiffBetweenColuns(temp: Map[String, ListBuffer[String]]): Map[String, Int] = {
+    var destList: ListBuffer[String] = temp("DEST")
+    var originList: ListBuffer[String] = temp("ORIGIN")
+    var resDest = countRepeatedValues(destList.toList)
+    var resOrigin = countRepeatedValues(originList.toList)
+    countTheDifference(resDest, resOrigin)
+
+  }
+
+  def countTheDifference(first: Map[String, Int], second: Map[String, Int]): Map[String, Int] = {
+    var keySet = first.keys
+    var sum: Int = 0
+    var resmap: Map[String, Int] = Map[String,Int]()
+    for (k <- keySet) {
+      sum = first(k) - second(k)
+      if (sum != 0) {
+        resmap += (k -> sum)
+      }
+    }
+    resmap
+  }
 
 
   def countRepeatedValues(letters: List[String]): Map[String, Int] = {
     var map = Map[String, Int]()
-    for(letter <- letters) map += Pair(letter, map.getOrElse(letter, 0) + 1)
+    for (letter <- letters) map += Pair(letter, map.getOrElse(letter, 0) + 1)
     map
   }
 
 
+  def writeResultIntoFile(temp: Map[String, Int], fileName: String) {
+    val out = new FileWriter("./src/main/resources/resultFiles/" + fileName + ".csv")
 
-  def writeResultIntoFile(temp:Map[String,Int],fileName:String){
-    val out =new FileWriter("./src/main/resources/resultFiles/"+fileName+".csv")
 
-
-    val stringAry: Array[String]  = ( temp.map (_.toString)).toArray
-    for(st<-stringAry){
-      out.write(st+"\n")
+    val stringAry: Array[String] = (temp.map(_.toString)).toArray
+    for (st <- stringAry) {
+      out.write(st + "\n")
     }
 
     out.close()

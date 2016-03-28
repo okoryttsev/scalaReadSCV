@@ -58,28 +58,7 @@ object WorkFile {
 
   }
 
-  def countValueForDays(temp: Map[String, ListBuffer[String]]): Map[String,Any] = {
-    var keySets = temp.keySet
-    var resMap = Map[String,Map[String,Int]]()
-    var weeks = Map[String,Any]()
 
-    for(t<-temp("DAY_OF_MONTH")){
-      if(t.toInt<7){
-        weeks+=("w1"->countRepeatedValues(temp("DEST").toList))
-      }
-      if(t.toInt<15 & t.toInt>7){
-        weeks+=("w2"->countRepeatedValues(temp("DEST").toList))
-      }
-      if(t.toInt>15 & t.toInt <21){
-        weeks+=("w3"->countRepeatedValues(temp("DEST").toList))
-      }
-      else{
-        weeks+=("w4"->countRepeatedValues(temp("DEST").toList))
-      }
-    }
-
-    weeks
-  }
 
 
   def countTheDifference(first: Map[String, Int], second: Map[String, Int]): Map[String, Int] = {

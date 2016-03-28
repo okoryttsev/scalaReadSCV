@@ -12,6 +12,8 @@ object RunnerApp {
     val result2=WorkFile.countDiffBetweenColuns(resultMap)
     println("\nStep5 write results into file")
     WorkFile.writeResultIntoFile(result2,"countTheDifference")
+    println("\nStep6 number of day ")
+    WorkFile.countValueForDays(resultMap)
 
   }
 }

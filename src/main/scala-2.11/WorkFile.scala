@@ -58,6 +58,30 @@ object WorkFile {
 
   }
 
+  def countValueForDays(temp: Map[String, ListBuffer[String]]): Map[String,Any] = {
+    var keySets = temp.keySet
+    var resMap = Map[String,Map[String,Int]]()
+    var weeks = Map[String,Any]()
+
+    for(t<-temp("DAY_OF_MONTH")){
+      if(t.toInt<7){
+        weeks+=("w1"->countRepeatedValues(temp("DEST").toList))
+      }
+      if(t.toInt<15 & t.toInt>7){
+        weeks+=("w2"->countRepeatedValues(temp("DEST").toList))
+      }
+      if(t.toInt>15 & t.toInt <21){
+        weeks+=("w3"->countRepeatedValues(temp("DEST").toList))
+      }
+      else{
+        weeks+=("w4"->countRepeatedValues(temp("DEST").toList))
+      }
+    }
+
+    weeks
+  }
+
+
   def countTheDifference(first: Map[String, Int], second: Map[String, Int]): Map[String, Int] = {
     var keySet = first.keys
     var sum: Int = 0
@@ -87,10 +111,10 @@ object WorkFile {
     for (st <- stringAry) {
 
 
-      out.write((st.replace("(","")).replace(")","") + "\n")
+      out.write((st.replace("(", "")).replace(")", "") + "\n")
     }
-    println("*** write into file, done "+
-    "file path:"+"./src/main/resources/resultFiles/" + fileName + ".csv")
+    println("*** write into file, done " +
+      "file path:" + "./src/main/resources/resultFiles/" + fileName + ".csv")
     out.close()
 
   }
